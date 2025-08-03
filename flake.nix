@@ -46,8 +46,11 @@
       }: let
         cfg = config.programs.ape;
       in {
-        options.programs.ape.enable = lib.mkEnableOption "Add binfmt-misc registration for the Actually Portable Executable loader (optional, reduces executable launch time by ~400ms).";
-        config = lib.mkIf cfg.enable {
+        options.programs.ape.binfmt = lib.mkEnableOption ''
+          Add binfmt-misc registration for the Actually Portable Executable
+          loader (optional, reduces executable launch time by ~400ms).
+        '';
+        config = lib.mkIf cfg.binfmt {
           boot.binfmt.registrations.APE = {
             interpreter = "${pkgs.cosmopolitan.${pkgs.stdenv.hostPlatform.system}.default}/bin/ape";
             recognitionType = "magic";
